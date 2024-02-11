@@ -1,25 +1,29 @@
+import cv2
 import pytesseract
-from PIL import Image
 
+# Path to the Tesseract executable (change this according to your installation)
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+image_path = r'C:\Users\uwrma\OpenCV\lena.jpg'
 
-# Set the path to the Tesseract executable (update the path accordingly)
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+def read_image(image_path):
+    # Read the image using OpenCV
+    image = cv2.imread(image_path)
 
-def extract_text_from_image(image_path):
-    # Open the image using PIL (Python Imaging Library)
-    image = Image.open(image_path)
+    # Convert the image to grayscale
+    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    # Use pytesseract to perform OCR on the image
-    text = pytesseract.image_to_string(image, lang='eng', config='--psm 6')
+    # Use Tesseract to extract text
+    text = pytesseract.image_to_string(gray_image)
 
     return text
 
-# Provide the path to your image
-image_path = r'C:\Users\uwrma\OpenCV\second.png'
+if __name__ == "__main__":
+    # Image file path (assuming 'lena.jpg' is in the same folder)
+    image_path = 'lena.jpg'
 
-# Extract text from the image
-result_text = extract_text_from_image(image_path)
+    # Read text from the image
+    result_text = read_image(image_path)
 
-# Print the extracted text
-print("Extracted Text:")
-print(result_text)
+    # Print the extracted text
+    print("Text extracted from the image:")
+    print(result_text)
